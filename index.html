@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Developer - Software Developer | Bandy Moot Pvt Ltd</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        dark: '#1F2937',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-border {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #0f0f0f, #0f0f0f),
+                linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+        }
+
+        /* .cursor-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #0d9488 0%, #2563eb 60%, #1e3a8a 100%); 
+             border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s;
+            mix-blend-mode: screen;
+        } */
+
+        /* .cursor-glow.active {
+            width: 700px;
+            height: 700px;
+        } */
+
+        .section {
+            position: relative;
+            z-index: 10;
+        }
+
+        .skill-bar {
+            transition: width 2s ease-in-out;
+        }
+
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 20;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translate(0, 0px);
+            }
+
+            50% {
+                transform: translate(0, -15px);
+            }
+
+            100% {
+                transform: translate(0, 0px);
+            }
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Hide default cursor */
+        * {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="gradient-bg">
+    <!-- Gradient Cursor Effect -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- Gradient Overlay -->
+    <div class="gradient-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-black/30 backdrop-blur-md z-50 border-b border-white/10">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 gradient-border rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">A</span>
+                    </div>
+                    <span class="text-xl font-bold text-white">Arvind Developer</span>
+                </div>
+
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-300 hover:text-white">Home</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-white">About</a>
+                    <a href="#skills" class="nav-link text-gray-300 hover:text-white">Skills</a>
+                    <a href="#projects" class="nav-link text-gray-300 hover:text-white">Projects</a>
+                    <a href="#experience" class="nav-link text-gray-300 hover:text-white">Experience</a>
+                    <a href="#contact" class="nav-link text-gray-300 hover:text-white">Contact</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="#contact"
+                        class="btn-glow bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-lg">
+                        Get In Touch
+                    </a>
+                    <button class="md:hidden text-gray-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="section pt-24 pb-16 min-h-screen flex items-center relative overflow-hidden ">
+        <div class="container mx-auto px-6 relative z-10 ">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div id="homeText" class="md:w-1/2 mb-10 md:mb-0">
+                    <p class="text-blue-300 text-lg mb-2">Hello, I'm</p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">Arvind Kumar Vishwakarma</h1>
+                    <h2 class="text-2xl md:text-4xl gradient-text mb-6">Software Developer at <span
+                            class="font-semibold">Bandy And Moot Pvt Ltd</span></h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-lg ">
+                        I build exceptional digital experiences focused on performance, accessibility, and clean code.
+                        Currently crafting software solutions at Bandy And Moot.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#projects"
+                            class="btn-glow bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg">
+                            View My Work
+                        </a>
+                        <a href="#contact"
+                            class="btn-glow gradient-border text-white hover:bg-white/10 px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative floating">
+                        <div
+                            class="w-64 h-64 md:w-80 md:h-80 gradient-border rounded-full flex items-center justify-center">
+                            <div
+                                class="w-56 h-56 md:w-72 md:h-72 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                <div
+                                    class="w-48 h-48 md:w-60 md:h-60 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full overflow-hidden border-4 border-white/10">
+                                    <img src="./Profile1.jpeg"
+                                        alt="John Developer" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="absolute -bottom-4 -right-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg shadow-lg">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                                <span class="font-medium">Available for work</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section py-16 relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">About Me</h2>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center">
+                    <div class="w-64 h-64 gradient-border rounded-2xl overflow-hidden shadow-xl">
+                        <img src="./Profile2.jpeg"
+                            alt="About Arvind Developer" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="md:w-2/3 md:pl-12 transition-all duration-300 
+            hover:bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.12)_0%,rgba(139,92,246,0.10)_40%,transparent_80%)]
+            hover:shadow-lg hover:shadow-blue-500/10 rounded-xl p-4">
+
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Crafting Digital Solutions at Bandy Moot</h3>
+
+                    <p class="text-gray-300 mb-6">
+                        I'm a passionate software developer with over 0.7+ years of experience building scalable web
+                        applications
+                        and digital products. Currently, I'm part of the innovative team at Bandy Moot Pvt Ltd, where I
+                        contribute to developing cutting-edge software solutions for our clients.
+                    </p>
+
+                    <p class="text-gray-300 mb-6">
+                        My expertise spans across full-stack development, with a focus on creating efficient,
+                        maintainable
+                        code and delightful user experiences. I believe in the power of technology to solve real-world
+                        problems and enjoy collaborating with teams to bring ideas to life.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-map-marker-alt text-blue-400 mr-3"></i>
+                            <span>Prayagraj, India</span>
+                        </div>
+
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-envelope text-blue-400 mr-3"></i>
+                            <span>arvindkumar7081950143@gmail.com</span>
+                        </div>
+
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-phone text-blue-400 mr-3"></i>
+                            <span>+91 7081950143</span>
+                        </div>
+
+                        <div class="flex items-center text-gray-300">
+                            <i class="fas fa-briefcase text-blue-400 mr-3"></i>
+                            <span>Full-time at Bandy Moot</span>
+                        </div>
+                    </div>
+
+                    <a href="https://drive.google.com/file/d/1uRVKy3ByM78Hg1-RNcqmdlKfKz_W54aF/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gradient-text font-semibold">
+                        Download Resume <i class="fas fa-download ml-2"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section py-16 relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Technical Skills</h2>
+            <p class="text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+                I've worked with a range of technologies in the software development world,
+                from front-end to back-end and everything in between.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Frontend Skills -->
+                <div class="project-card p-6 rounded-xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-code text-blue-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">Frontend Development</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>React.js</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                                    style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>JavaScript/TypeScript</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                                    style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>HTML/CSS</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                                    style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>Tailwind CSS</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                                    style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Skills -->
+                <div class="project-card p-6 rounded-xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-server text-green-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">Backend Development</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>Node.js</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full"
+                                    style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>Python/Django/FastApi</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full"
+                                    style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>Java/SpringBoot</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full"
+                                    style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>Database Design</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full"
+                                    style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-gray-300">
+                                <span>API Development</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="skill-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full"
+                                    style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools & Technologies -->
+            <div class="mt-12">
+                <h3 class="text-2xl font-semibold text-center mb-8 text-white">Tools & Technologies</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="project-card px-6 py-3 rounded-lg flex items-center">
+                        <i class="fab fa-git-alt text-orange-400 text-xl mr-2"></i>
+                        <span class="text-gray-300">Git</span>
+                    </div>
+                    <div class="project-card px-6 py-3 rounded-lg flex items-center">
+                        <i class="fab fa-docker text-blue-400 text-xl mr-2"></i>
+                        <span class="text-gray-300">Docker</span>
+                    </div>
+                    <div class="project-card px-6 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-cloud text-blue-300 text-xl mr-2"></i>
+                        <span class="text-gray-300">AWS</span>
+                    </div>
+                    <div class="project-card px-6 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-database text-green-400 text-xl mr-2"></i>
+                        <span class="text-gray-300">MongoDB</span>
+                    </div>
+                    <div class="project-card px-6 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-database text-blue-300 text-xl mr-2"></i>
+                        <span class="text-gray-300">PostgreSQL</span>
+                    </div>
+                    <div class="project-card px-6 py-3 rounded-lg flex items-center">
+                        <i class="fab fa-figma text-purple-400 text-xl mr-2"></i>
+                        <span class="text-gray-300">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section py-16 relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Featured Projects</h2>
+            <p class="text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+                Here are some of my recent projects that showcase my skills and experience.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card rounded-xl overflow-hidden ">
+                    <div class="h-48 bg-gradient-to-r from-green-500 to-teal-600 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+
+                        <!-- Full-cover image -->
+                        <img src="./EmployeeManagement.png" class="absolute inset-0 w-full h-full object-cover" />
+
+                        <!-- Centered text -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-white bg-black/40 px-3 py-1 rounded-lg text-sm">
+                                Bandy Moot Project
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Employee Management System</h3>
+                        <p class="text-gray-300 mb-4">
+                            Developed a full-stack Employee Management System enabling seamless employee onboarding,
+                            attendance tracking, role-based access, and centralized HR operations. Improved workflow
+                            efficiency and reduced manual HR tasks through automation and intuitive UI.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full">React</span>
+                            <span class="bg-green-500/20 text-green-300 text-xs px-3 py-1 rounded-full">Node.js</span>
+                            <span class="bg-purple-500/20 text-purple-300 text-xs px-3 py-1 rounded-full">MongoDB</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://www.bandymoot.com" target="_blank" rel="noopener noreferrer"
+                                class="text-blue-400 hover:text-blue-300 font-medium flex items-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/arvindbandymoot" target="_blank" rel="noopener noreferrer"
+                                class="text-gray-400 hover:text-white font-medium flex items-center">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card rounded-xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-green-500 to-teal-600 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+
+                        <!-- Full-cover image -->
+                        <img src="./CompanyWebsite.png" class="absolute inset-0 w-full h-full object-cover" />
+
+                        <!-- Centered text -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-white bg-black/40 px-3 py-1 rounded-lg text-sm">
+                                Bandy Moot Project
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Company Website</h3>
+                        <p class="text-gray-300 mb-4">
+                            Built a fully responsive and SEO-optimized company website with a clean UI, intuitive
+                            navigation, and dynamic content sections. Integrated service pages, contact forms, and
+                            company branding elements to enhance user engagement and establish a strong online presence.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full">React</span>
+                            <span class="bg-yellow-500/20 text-yellow-300 text-xs px-3 py-1 rounded-full">Node.js</span>
+                            <span class="bg-blue-700/20 text-blue-300 text-xs px-3 py-1 rounded-full">MongoDB</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://www.bandymoot.com/home" target="_blank" rel="oopener noreferrer"
+                                class="text-blue-400 hover:text-blue-300 font-medium flex items-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/arvindbandymoot" target="_blank" rel="oopener noreferrer"
+                                class="text-gray-400 hover:text-white font-medium flex items-center">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card rounded-xl overflow-hidden">
+                    <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-600 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div
+                            class="absolute bottom-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-lg text-sm">
+                            Personal Project
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 text-white">Home Automation App</h3>
+                        <p class="text-gray-300 mb-4">
+                            Built a Bluetooth-enabled Home Automation application that allows users to control lights,
+                            fans, AC, and various home appliances directly from a smartphone. Implemented real-time
+                            communication, fast pairing, and intuitive UI for smooth device operation and improved user
+                            convenience.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full">React
+                                Native</span>
+                            <span
+                                class="bg-green-500/20 text-green-300 text-xs px-3 py-1 rounded-full">JavaScript</span>
+                            <span class="bg-purple-500/20 text-purple-300 text-xs px-3 py-1 rounded-full">Android
+                                Studio</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="https://github.com/arvind7081950143/Home-Automation" target="_blank"
+                                rel="oopener noreferrer"
+                                class="text-blue-400 hover:text-blue-300 font-medium flex items-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/arvind7081950143/Home-Automation" target="_blank"
+                                rel="oopener noreferrer"
+                                class="text-gray-400 hover:text-white font-medium flex items-center">
+                                <i class="fab fa-github mr-2"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center gradient-text font-semibold text-lg">
+                    View All Projects <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section py-16 relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Work Experience</h2>
+            <p class="text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+                My professional journey in the software development industry.
+            </p>
+
+            <div class="max-w-3xl mx-auto relative">
+                <!-- Timeline line -->
+                <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500 z-10">
+                </div>
+
+                <!-- Current Job -->
+                <div class="relative pl-20 pb-12 timeline-item">
+                    <div class="project-card p-6 rounded-xl">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                            <h3 class="text-xl font-semibold text-white">Software Developer</h3>
+                            <span
+                                class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-sm mt-2 md:mt-0">Present</span>
+                        </div>
+                        <div class="flex items-center text-gray-300 mb-4">
+                            <i class="fas fa-building text-blue-400 mr-2"></i>
+                            <span class="font-medium">Bandy And Moot Pvt Ltd</span>
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-map-marker-alt text-blue-400 mr-2"></i>
+                            <span>Prayagraj, India</span>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            Developed and maintained web applications, implemented new features,
+                            and optimized performance for various client projects.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full">React</span>
+                            <span class="bg-green-500/20 text-green-300 text-xs px-3 py-1 rounded-full">Node.js</span>
+                            <span class="bg-purple-500/20 text-purple-300 text-xs px-3 py-1 rounded-full">AWS</span>
+                            <span class="bg-yellow-500/20 text-yellow-300 text-xs px-3 py-1 rounded-full">Python</span>
+                            <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full">Docker</span>
+                            <span
+                                class="bg-green-500/20 text-green-300 text-xs px-3 py-1 rounded-full">git&github</span>
+                            <span class="bg-purple-500/20 text-purple-300 text-xs px-3 py-1 rounded-full">Linux</span>
+                            <span class="bg-yellow-500/20 text-yellow-300 text-xs px-3 py-1 rounded-full">Java</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section py-16 relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-3xl font-bold text-center mb-4 text-white">Get In Touch</h2>
+            <p class="text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+                Feel free to reach out if you're looking for a developer, have a question, or just want to connect.
+            </p>
+
+            <div class="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
+                <div class="lg:w-1/2">
+                    <div class="project-card p-8 rounded-2xl">
+                        <h3 class="text-2xl font-semibold mb-6 text-white">Let's work together</h3>
+                        <p class="mb-8 text-gray-300">
+                            I'm always interested in new opportunities, whether it's a full-time position,
+                            freelance work, or collaboration on an exciting project.
+                        </p>
+
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-envelope text-blue-400 text-lg w-6"></i>
+                                <span class="ml-4">arvindkumar7081950143@gmail.com</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-phone text-blue-400 text-lg w-6"></i>
+                                <span class="ml-4">+91 7081950143</span>
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <i class="fas fa-map-marker-alt text-blue-400 text-lg w-6"></i>
+                                <span class="ml-4">Prayagraj, India</span>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <a href="https://www.linkedin.com/in/arvind-kumar-vishwakarma-278085242/" target="_blank" rel="noopener noreferrer"
+                                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                <i class="fab fa-linkedin-in text-white"></i>
+                            </a>
+                            <a href="https://github.com/arvind7081950143"
+                                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                <i class="fab fa-github text-white"></i>
+                            </a>
+                            <a href="https://leetcode.com/u/arvind5223"
+                                class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
+                                <img src="./leetcode.png" class="h-6 w-6" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black/50 py-12 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 gradient-border rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">A</span>
+                        </div>
+                        <span class="text-xl font-bold text-white">Arvind Kumar Vishwakarma</span>
+                    </div>
+                    <p class="text-gray-400 mt-2">Software Developer at Bandy And Moot Pvt Ltd</p>
+                </div>
+
+                <div class="flex space-x-6">
+                    <a href="https://www.linkedin.com/in/arvind-kumar-vishwakarma-278085242/" target="_blank"
+                        rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://github.com/arvind7081950143" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="https://leetcode.com/u/arvind5223/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:opacity-80 transition" target="_blank">
+                        <img src="./leetcode.png" class="h-6 w-6" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Gradient cursor effect
+        const cursorGlow = document.getElementById('cursorGlow');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // Make cursor glow larger when hovering over interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, input, textarea, .project-card');
+
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorGlow.classList.add('active');
+            });
+
+            el.addEventListener('mouseleave', () => {
+                cursorGlow.classList.remove('active');
+            });
+        });
+
+        // Simple animation for skill bars when they come into view
+        document.addEventListener('DOMContentLoaded', function () {
+            const skillBars = document.querySelectorAll('.skill-bar');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.style.width;
+                        entry.target.style.width = '0';
+                        setTimeout(() => {
+                            entry.target.style.width = width;
+                        }, 100);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+        });
+    </script>
+</body>
+
+</html>
